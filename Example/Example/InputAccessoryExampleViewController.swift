@@ -25,6 +25,9 @@ final class InputAccessoryExampleViewController: CommonTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        }
     }
     
 }

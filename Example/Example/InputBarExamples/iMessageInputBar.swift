@@ -41,6 +41,9 @@ class iMessageInputBar: InputBarAccessoryView {
         sendButton.backgroundColor = .clear
         middleContentViewPadding.right = -38
         separatorLine.isHidden = true
+        if #available(iOS 13.0, *) {
+            blurEffectStyle = .systemThinMaterial
+        }
         isTranslucent = true
     }
     

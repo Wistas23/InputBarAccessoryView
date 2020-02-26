@@ -66,29 +66,37 @@ open class InputBarAccessoryView: UIView {
     open lazy var blurView: UIVisualEffectView = {
         var blurEffect = UIBlurEffect(style: .light)
         if #available(iOS 13, *) {
-            blurEffect = UIBlurEffect(style: .systemMaterial)
+            blurEffect = UIBlurEffect(style: blurEffectStyle)
         }
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
+    @available(iOS 13.0, *)
+    open lazy var blurEffectStyle: UIBlurEffect.Style = .systemMaterial
     
     /// Determines if the InputBarAccessoryView should have a translucent effect
     open var isTranslucent: Bool = false {
         didSet {
+            blurView.isHidden = !isTranslucent
             if isTranslucent && blurView.superview == nil {
                 backgroundView.addSubview(blurView)
                 blurView.fillSuperview()
             }
-            blurView.isHidden = !isTranslucent
-            let color: UIColor = backgroundView.backgroundColor ?? .white
-            backgroundView.backgroundColor = isTranslucent ? color.withAlphaComponent(0.75) : color
+            if #available(iOS 13.0, *) {
+                backgroundView.backgroundColor = isTranslucent ? .clear : .systemBackground
+                backgroundColor = isTranslucent ? .clear : .systemBackground
+            } else {
+                backgroundView.backgroundColor = isTranslucent ? .clear : .white
+                backgroundColor = isTranslucent ? .clear : .white
+            }
         }
     }
 
     /// A SeparatorLine that is anchored at the top of the InputBarAccessoryView
     public let separatorLine = SeparatorLine()
-    
+
     /**
      The InputStackView at the InputStackView.top position
      
@@ -376,8 +384,11 @@ open class InputBarAccessoryView: UIView {
     
     /// Sets up the default properties
     open func setup() {
-
-        backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            backgroundColor = .systemBackground
+        } else {
+            backgroundColor = .white
+        }
         autoresizingMask = [.flexibleHeight]
         setupSubviews()
         setupConstraints()
