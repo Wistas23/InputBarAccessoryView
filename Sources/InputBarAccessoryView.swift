@@ -75,14 +75,21 @@ open class InputBarAccessoryView: UIView {
 
     @available(iOS 13.0, *)
     open lazy var blurEffectStyle: UIBlurEffect.Style = .systemMaterial
-    
+
+    /// Bottom constraint for blur view for non InputAccessoryView case
+    /// Default value = 0, values > 1 for hiding clear space between input view and keyboard when latter appears
+    open var blurViewBottomConstraint: CGFloat = 0
+
     /// Determines if the InputBarAccessoryView should have a translucent effect
     open var isTranslucent: Bool = false {
         didSet {
             blurView.isHidden = !isTranslucent
             if isTranslucent && blurView.superview == nil {
                 backgroundView.addSubview(blurView)
-                blurView.fillSuperview()
+                blurView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: blurViewBottomConstraint).isActive = true
+                blurView.topAnchor.constraint(equalTo: backgroundView.topAnchor).isActive = true
+                blurView.rightAnchor.constraint(equalTo: backgroundView.rightAnchor).isActive = true
+                blurView.leftAnchor.constraint(equalTo: backgroundView.leftAnchor).isActive = true
             }
             if #available(iOS 13.0, *) {
                 backgroundView.backgroundColor = isTranslucent ? .clear : .systemBackground
