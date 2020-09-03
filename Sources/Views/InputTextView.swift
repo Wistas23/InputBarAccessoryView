@@ -256,7 +256,7 @@ open class InputTextView: UITextView {
     /// Addes a new UIImage to the NSTextContainer as an NSTextAttachment
     ///
     /// - Parameter image: The image to add
-    private func pasteImageInTextContainer(with image: UIImage) {
+    func pasteImageInTextContainer(with image: UIImage) {
         
         // Add the new image as an NSTextAttachment
         let attributedImageString = NSAttributedString(attachment: textAttachment(using: image))
