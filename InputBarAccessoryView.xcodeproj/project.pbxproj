@@ -53,7 +53,6 @@
 		3821ADDB20F531A600DE0D1D /* KeyboardEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEvent.swift; sourceTree = "<group>"; };
 		3821ADE720F54B3700DE0D1D /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		383B83831F4787E200027965 /* InputBarAccessoryView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InputBarAccessoryView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38447E1D22A31BE70002649D /* RxInputBarAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxInputBarAccessoryView.swift; sourceTree = "<group>"; };
 		38570137218651C400589A30 /* InputBarSendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputBarSendButton.swift; sourceTree = "<group>"; };
 		3876DA8A1F8352F200C89326 /* AutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteCell.swift; sourceTree = "<group>"; };
 		3876DA8D1F83530200C89326 /* AutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteManager.swift; sourceTree = "<group>"; };
@@ -109,7 +108,6 @@
 		383B83791F4787E200027965 = {
 			isa = PBXGroup;
 			children = (
-				38447E1C22A31BE70002649D /* RxInputBarAccessoryView */,
 				38C867701F50A6AD00811974 /* Sources */,
 				383B83841F4787E200027965 /* Products */,
 			);
@@ -121,14 +119,6 @@
 				383B83831F4787E200027965 /* InputBarAccessoryView.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		38447E1C22A31BE70002649D /* RxInputBarAccessoryView */ = {
-			isa = PBXGroup;
-			children = (
-				38447E1D22A31BE70002649D /* RxInputBarAccessoryView.swift */,
-			);
-			path = RxInputBarAccessoryView;
 			sourceTree = "<group>";
 		};
 		3876DA8C1F8352F800C89326 /* Plugins */ = {
