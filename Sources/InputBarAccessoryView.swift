@@ -112,8 +112,9 @@ open class InputBarAccessoryView: UIView {
      2. It's alignment is initially set to .fill
      */
     public let topStackView: InputStackView = {
-        let stackView = InputStackView(axis: .vertical, spacing: 0)
+        let stackView = InputStackView(axis: .horizontal, spacing: 0)
         stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
         return stackView
     }()
 
@@ -833,11 +834,14 @@ open class InputBarAccessoryView: UIView {
     }
 
     open func setReplyViewWith(author: String, message: String) {
+        let imageSize: CGFloat = 30
         var stackView: [InputItem] = []
         let replyImage = InputBarButtonItem().configure {
             $0.spacing = .fixed(10)
-            $0.image = UIImage(named: "accessoryViewReplyArrow")
-            $0.setSize(CGSize(width: 30, height: 30), animated: false)
+            if #available(iOS 13.0, *) {
+                $0.image = UIImage(systemName: "arrowshape.turn.up.left")
+            }
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
             if #available(iOS 13.0, *) {
                 $0.tintColor = UIColor.label
             } else {
@@ -847,14 +851,21 @@ open class InputBarAccessoryView: UIView {
         stackView.append(replyImage)
         let message = InputBarButtonItem().configure {
             $0.spacing = .fixed(10)
-//            $0.setSize(CGSize(width: 30, height: 30), animated: false)
+            $0.setSize(CGSize(width: self.frame.width - 2 * imageSize, height: 30), animated: false)
             $0.title = message
+            $0.isEnabled = false
+            if #available(iOS 13.0, *) {
+                $0.setTitleColor(UIColor.label, for: .normal)
+            }
+            $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         }
         stackView.append(message)
         let closeButton = InputBarButtonItem().configure {
             $0.spacing = .fixed(10)
-            $0.image = UIImage(named: "accessoryViewCross")
-            $0.setSize(CGSize(width: 30, height: 30), animated: false)
+            if #available(iOS 13.0, *) {
+                $0.image = UIImage(systemName: "xmark")
+            }
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
         }.onTouchUpInside { [weak self] _ in
             self?.hideReply()
             self?.delegate?.inputBarDidClosedReply()
