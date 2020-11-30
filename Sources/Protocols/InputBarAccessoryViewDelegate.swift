@@ -37,7 +37,7 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     ///   - inputBar: The InputBarAccessoryView
     ///   - text: The current text in the InputBarAccessoryView's InputTextView
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String)
-    
+
     /// Called when the instrinsicContentSize of the InputBarAccessoryView has changed. Can be used for adjusting content insets
     /// on other views to make sure the InputBarAccessoryView does not cover up any other view
     ///
@@ -60,15 +60,23 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     ///   - inputBar: The InputBarAccessoryView
     ///   - gesture: The gesture that was recognized
     func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer)
+
+    func inputBarDidClosedReply()
+
+    func inputBarDidTapReply()
 }
 
 public extension InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {}
-    
+
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {}
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {}
     
     func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer) {}
+
+    func inputBarDidClosedReply() {}
+
+    func inputBarDidTapReply() {}
 }

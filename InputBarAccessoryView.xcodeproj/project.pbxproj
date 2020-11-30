@@ -42,6 +42,8 @@
 		38F0C1F220C7807D00FF8DD3 /* AutocompleteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F0C1F120C7807D00FF8DD3 /* AutocompleteSession.swift */; };
 		38F0C1F420C7808F00FF8DD3 /* AutocompleteCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F0C1F320C7808F00FF8DD3 /* AutocompleteCompletion.swift */; };
 		38F0C1FB20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F0C1FA20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift */; };
+		9480BCBF257126A40051CD82 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9480BCBE257126A40051CD82 /* Icons.xcassets */; };
+		9480BD542574FC7E0051CD82 /* InputBarReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +55,6 @@
 		3821ADDB20F531A600DE0D1D /* KeyboardEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEvent.swift; sourceTree = "<group>"; };
 		3821ADE720F54B3700DE0D1D /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		383B83831F4787E200027965 /* InputBarAccessoryView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InputBarAccessoryView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38447E1D22A31BE70002649D /* RxInputBarAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxInputBarAccessoryView.swift; sourceTree = "<group>"; };
 		38570137218651C400589A30 /* InputBarSendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputBarSendButton.swift; sourceTree = "<group>"; };
 		3876DA8A1F8352F200C89326 /* AutocompleteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteCell.swift; sourceTree = "<group>"; };
 		3876DA8D1F83530200C89326 /* AutocompleteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteManager.swift; sourceTree = "<group>"; };
@@ -83,6 +84,8 @@
 		38F0C1F120C7807D00FF8DD3 /* AutocompleteSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteSession.swift; sourceTree = "<group>"; };
 		38F0C1F320C7808F00FF8DD3 /* AutocompleteCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteCompletion.swift; sourceTree = "<group>"; };
 		38F0C1FA20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InputBarAccessoryView+Availability.swift"; sourceTree = "<group>"; };
+		9480BCBE257126A40051CD82 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputBarReplyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +112,6 @@
 		383B83791F4787E200027965 = {
 			isa = PBXGroup;
 			children = (
-				38447E1C22A31BE70002649D /* RxInputBarAccessoryView */,
 				38C867701F50A6AD00811974 /* Sources */,
 				383B83841F4787E200027965 /* Products */,
 			);
@@ -121,14 +123,6 @@
 				383B83831F4787E200027965 /* InputBarAccessoryView.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		38447E1C22A31BE70002649D /* RxInputBarAccessoryView */ = {
-			isa = PBXGroup;
-			children = (
-				38447E1D22A31BE70002649D /* RxInputBarAccessoryView.swift */,
-			);
-			path = RxInputBarAccessoryView;
 			sourceTree = "<group>";
 		};
 		3876DA8C1F8352F800C89326 /* Plugins */ = {
@@ -185,6 +179,7 @@
 				38C867771F50A6AD00811974 /* Info.plist */,
 				38F0C1FA20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift */,
 				38C867781F50A6AD00811974 /* InputBarAccessoryView-Bridging-Header.h */,
+				9480BCBE257126A40051CD82 /* Icons.xcassets */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -192,6 +187,7 @@
 		38C867791F50A6AD00811974 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */,
 				38C8677C1F50A6AD00811974 /* InputTextView.swift */,
 				381042241F87F34900B1E61A /* InputStackView.swift */,
 				381042221F85FD1300B1E61A /* SeparatorLine.swift */,
@@ -364,6 +360,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9480BCBF257126A40051CD82 /* Icons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				387752601F884FF3000E0AC5 /* AttachmentManagerDataSource.swift in Sources */,
+				9480BD542574FC7E0051CD82 /* InputBarReplyView.swift in Sources */,
 				3821ADDC20F531A600DE0D1D /* KeyboardEvent.swift in Sources */,
 				3876DA921F83551400C89326 /* AutocompleteManager.swift in Sources */,
 				38ECDBBD219B46D50076E154 /* InputBarViewController.swift in Sources */,
@@ -540,6 +538,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9EUCWD26TP;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -549,6 +548,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = me.nathantannar.InputBarAccessoryView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -563,6 +563,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9EUCWD26TP;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -572,6 +573,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = me.nathantannar.InputBarAccessoryView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

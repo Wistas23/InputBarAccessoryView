@@ -29,7 +29,7 @@ import UIKit
 
 /// A powerful InputAccessoryView ideal for messaging applications
 open class InputBarAccessoryView: UIView {
-    
+
     // MARK: - Properties
     
     /// A delegate to broadcast notifications from the `InputBarAccessoryView`
@@ -112,11 +112,12 @@ open class InputBarAccessoryView: UIView {
      2. It's alignment is initially set to .fill
      */
     public let topStackView: InputStackView = {
-        let stackView = InputStackView(axis: .vertical, spacing: 0)
+        let stackView = InputStackView(axis: .horizontal, spacing: 0)
         stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
         return stackView
     }()
-    
+
     /**
      The InputStackView at the InputStackView.left position
      
@@ -235,7 +236,7 @@ open class InputBarAccessoryView: UIView {
      ````
      
      */
-    open var topStackViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) {
+    open var topStackViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0) {
         didSet {
             updateTopStackViewPadding()
         }
@@ -329,7 +330,7 @@ open class InputBarAccessoryView: UIView {
     
     /// The InputBarItems held in the bottomStackView
     public private(set) var bottomStackViewItems: [InputItem] = []
-    
+
     /// The InputBarItems held in the topStackView
     public private(set) var topStackViewItems: [InputItem] = []
     
@@ -453,32 +454,32 @@ open class InputBarAccessoryView: UIView {
         separatorLine.addConstraints(topAnchor, left: backgroundView.leftAnchor, right: backgroundView.rightAnchor, heightConstant: separatorLine.height)
 
         backgroundViewLayoutSet = NSLayoutConstraintSet(
-            top: backgroundView.topAnchor.constraint(equalTo: topStackView.bottomAnchor),
+            top: backgroundView.topAnchor.constraint(equalTo: topStackView.topAnchor),
             bottom: backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             left: backgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: frameInsets.left),
             right: backgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -frameInsets.right)
         )
-        
+
         topStackViewLayoutSet = NSLayoutConstraintSet(
             top:    topStackView.topAnchor.constraint(equalTo: topAnchor, constant: topStackViewPadding.top),
-            bottom: topStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -padding.top),
-            left:   topStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: topStackViewPadding.left + frameInsets.left),
-            right:  topStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -(topStackViewPadding.right + frameInsets.right))
+            bottom: topStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -topStackViewPadding.bottom),
+            left:   topStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: topStackViewPadding.left),
+            right:  topStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -topStackViewPadding.right)
         )
-        
+
         contentViewLayoutSet = NSLayoutConstraintSet(
-            top:    contentView.topAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: padding.top),
+            top:    contentView.topAnchor.constraint(equalTo: topStackView.bottomAnchor, constant: topStackViewPadding.bottom),
             bottom: contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom),
             left:   contentView.leftAnchor.constraint(equalTo: leftAnchor, constant: padding.left + frameInsets.left),
             right:  contentView.rightAnchor.constraint(equalTo: rightAnchor, constant: -(padding.right + frameInsets.right))
         )
-        
+
         if #available(iOS 11.0, *) {
             // Switch to safeAreaLayoutGuide
             contentViewLayoutSet?.bottom = contentView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding.bottom)
             contentViewLayoutSet?.left = contentView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: padding.left + frameInsets.left)
             contentViewLayoutSet?.right = contentView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -(padding.right + frameInsets.right))
-            
+
             topStackViewLayoutSet?.left = topStackView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: topStackViewPadding.left + frameInsets.left)
             topStackViewLayoutSet?.right = topStackView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -(topStackViewPadding.right + frameInsets.right))
         }
@@ -831,9 +832,64 @@ open class InputBarAccessoryView: UIView {
             self.superview?.superview?.layoutIfNeeded()
         }
     }
-    
+
+    open func setReplyViewWith(author: String, message: String, accentColor: UIColor) {
+        let imageSize: CGFloat = 30
+        var stackView: [InputItem] = []
+        let replyImage = InputBarButtonItem().configure {
+            $0.spacing = .fixed(10)
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: .horizontal)
+            if #available(iOS 13.0, *) {
+                $0.image = UIImage(systemName: "arrowshape.turn.up.left")
+            }
+            if #available(iOS 13.0, *) {
+                $0.tintColor = UIColor.label
+            } else {
+                $0.tintColor = UIColor.black
+            }
+        }
+        stackView.append(replyImage)
+        let replyView = InputBarReplyView(author: author, message: message).configure {
+            $0.spacingBorder = .flexible
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 100), for: .horizontal)
+        }
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(replyViewTap))
+        replyView.addGestureRecognizer(gesture)
+        stackView.append(replyView)
+        let closeButton = InputBarButtonItem().configure {
+            $0.spacing = .fixed(10)
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: .horizontal)
+            if #available(iOS 13.0, *) {
+                $0.image = UIImage(systemName: "xmark")
+            }
+            $0.tintColor = accentColor
+        }.onTouchUpInside { [weak self] _ in
+            self?.hideReply()
+            self?.delegate?.inputBarDidClosedReply()
+        }.onSelected {
+            $0.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }.onDeselected {
+            $0.transform = CGAffineTransform.identity
+
+        }
+        stackView.append(closeButton)
+        setStackViewItems(stackView, forStack: .top, animated: true)
+    }
+
+    private func hideReply() {
+        if !topStackViewItems.isEmpty {
+            setStackViewItems([], forStack: .top, animated: true)
+        }
+    }
+
+    @objc private func replyViewTap() {
+        delegate?.inputBarDidTapReply()
+    }
+
     // MARK: - Notifications/Hooks
-    
+
     /// Invalidates the intrinsicContentSize
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -845,7 +901,7 @@ open class InputBarAccessoryView: UIView {
             }
         }
     }
-    
+
     /// Invalidates the intrinsicContentSize
     @objc
     open func orientationDidChange() {
@@ -861,9 +917,9 @@ open class InputBarAccessoryView: UIView {
     /// Invalidates the intrinsicContentSize
     @objc
     open func inputTextViewDidChange() {
-        
+
         let trimmedText = inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+
         if shouldManageSendButtonEnabledState {
             var isEnabled = !trimmedText.isEmpty
             if !isEnabled {
@@ -872,45 +928,45 @@ open class InputBarAccessoryView: UIView {
             }
             sendButton.isEnabled = isEnabled
         }
-        
+
         // Capture change before iterating over the InputItem's
         let shouldInvalidateIntrinsicContentSize = requiredInputTextViewHeight != inputTextView.bounds.height
-        
+
         items.forEach { $0.textViewDidChangeAction(with: self.inputTextView) }
         delegate?.inputBar(self, textViewTextDidChangeTo: trimmedText)
-        
+
         if shouldInvalidateIntrinsicContentSize {
             // Prevent un-needed content size invalidation
             invalidateIntrinsicContentSize()
         }
     }
-    
+
     /// Calls each items `keyboardEditingBeginsAction` method
     @objc
     open func inputTextViewDidBeginEditing() {
         items.forEach { $0.keyboardEditingBeginsAction() }
     }
-    
+
     /// Calls each items `keyboardEditingEndsAction` method
     @objc
     open func inputTextViewDidEndEditing() {
         items.forEach { $0.keyboardEditingEndsAction() }
     }
-    
+
     // MARK: - Plugins
-    
+
     /// Reloads each of the plugins
     open func reloadPlugins() {
         inputPlugins.forEach { $0.reloadData() }
     }
-    
+
     /// Invalidates each of the plugins
     open func invalidatePlugins() {
         inputPlugins.forEach { $0.invalidate() }
     }
-    
+
     // MARK: - User Actions
-    
+
     /// Calls each items `keyboardSwipeGestureAction` method
     /// Calls the delegates `didSwipeTextViewWith` method
     @objc
@@ -918,11 +974,12 @@ open class InputBarAccessoryView: UIView {
         items.forEach { $0.keyboardSwipeGestureAction(with: gesture) }
         delegate?.inputBar(self, didSwipeTextViewWith: gesture)
     }
-    
+
     /// Calls the delegates `didPressSendButtonWith` method
     /// Assumes that the InputTextView's text has been set to empty and calls `inputTextViewDidChange()`
     /// Invalidates each of the InputPlugins
     open func didSelectSendButton() {
+        hideReply()
         delegate?.inputBar(self, didPressSendButtonWith: inputTextView.text)
     }
 }
