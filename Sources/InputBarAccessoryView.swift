@@ -833,15 +833,16 @@ open class InputBarAccessoryView: UIView {
         }
     }
 
-    open func setReplyViewWith(author: String, message: String) {
+    open func setReplyViewWith(author: String, message: String, accentColor: UIColor) {
         let imageSize: CGFloat = 30
         var stackView: [InputItem] = []
         let replyImage = InputBarButtonItem().configure {
             $0.spacing = .fixed(10)
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: .horizontal)
             if #available(iOS 13.0, *) {
                 $0.image = UIImage(systemName: "arrowshape.turn.up.left")
             }
-            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
             if #available(iOS 13.0, *) {
                 $0.tintColor = UIColor.label
             } else {
@@ -849,40 +850,29 @@ open class InputBarAccessoryView: UIView {
             }
         }
         stackView.append(replyImage)
-        let message = InputBarButtonItem().configure {
-            $0.spacing = .fixed(10)
-            $0.setSize(CGSize(width: self.frame.width - 2 * imageSize, height: 30), animated: false)
-            $0.title = message
-            $0.isEnabled = false
-            if #available(iOS 13.0, *) {
-                $0.setTitleColor(UIColor.label, for: .normal)
-            }
-            $0.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
+        let replyView = InputBarReplyView(author: author, message: message).configure {
+            $0.spacingBorder = .flexible
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 100), for: .horizontal)
         }
-        stackView.append(message)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(replyViewTap))
+        replyView.addGestureRecognizer(gesture)
+        stackView.append(replyView)
         let closeButton = InputBarButtonItem().configure {
             $0.spacing = .fixed(10)
+            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
+            $0.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: .horizontal)
             if #available(iOS 13.0, *) {
                 $0.image = UIImage(systemName: "xmark")
             }
-            $0.setSize(CGSize(width: imageSize, height: imageSize), animated: false)
+            $0.tintColor = accentColor
         }.onTouchUpInside { [weak self] _ in
             self?.hideReply()
             self?.delegate?.inputBarDidClosedReply()
         }.onSelected {
             $0.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            if #available(iOS 13.0, *) {
-                $0.tintColor = UIColor.secondaryLabel
-            } else {
-                $0.tintColor = UIColor.lightGray
-            }
         }.onDeselected {
             $0.transform = CGAffineTransform.identity
-            if #available(iOS 13.0, *) {
-                $0.tintColor = UIColor.label
-            } else {
-                $0.tintColor = UIColor.black
-            }
+
         }
         stackView.append(closeButton)
         setStackViewItems(stackView, forStack: .top, animated: true)
@@ -892,6 +882,10 @@ open class InputBarAccessoryView: UIView {
         if !topStackViewItems.isEmpty {
             setStackViewItems([], forStack: .top, animated: true)
         }
+    }
+
+    @objc private func replyViewTap() {
+        delegate?.inputBarDidTapReply()
     }
 
     // MARK: - Notifications/Hooks

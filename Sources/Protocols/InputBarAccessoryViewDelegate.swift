@@ -62,7 +62,8 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer)
 
     func inputBarDidClosedReply()
-    
+
+    func inputBarDidTapReply()
 }
 
 public extension InputBarAccessoryViewDelegate {
@@ -76,4 +77,6 @@ public extension InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer) {}
 
     func inputBarDidClosedReply() {}
+
+    func inputBarDidTapReply() {}
 }

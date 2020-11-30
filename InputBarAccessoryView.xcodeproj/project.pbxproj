@@ -43,6 +43,7 @@
 		38F0C1F420C7808F00FF8DD3 /* AutocompleteCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F0C1F320C7808F00FF8DD3 /* AutocompleteCompletion.swift */; };
 		38F0C1FB20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F0C1FA20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift */; };
 		9480BCBF257126A40051CD82 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9480BCBE257126A40051CD82 /* Icons.xcassets */; };
+		9480BD542574FC7E0051CD82 /* InputBarReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		38F0C1F320C7808F00FF8DD3 /* AutocompleteCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteCompletion.swift; sourceTree = "<group>"; };
 		38F0C1FA20C8971500FF8DD3 /* InputBarAccessoryView+Availability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InputBarAccessoryView+Availability.swift"; sourceTree = "<group>"; };
 		9480BCBE257126A40051CD82 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputBarReplyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 		38C867791F50A6AD00811974 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9480BD532574FC7E0051CD82 /* InputBarReplyView.swift */,
 				38C8677C1F50A6AD00811974 /* InputTextView.swift */,
 				381042241F87F34900B1E61A /* InputStackView.swift */,
 				381042221F85FD1300B1E61A /* SeparatorLine.swift */,
@@ -369,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				387752601F884FF3000E0AC5 /* AttachmentManagerDataSource.swift in Sources */,
+				9480BD542574FC7E0051CD82 /* InputBarReplyView.swift in Sources */,
 				3821ADDC20F531A600DE0D1D /* KeyboardEvent.swift in Sources */,
 				3876DA921F83551400C89326 /* AutocompleteManager.swift in Sources */,
 				38ECDBBD219B46D50076E154 /* InputBarViewController.swift in Sources */,
