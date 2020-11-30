@@ -82,9 +82,13 @@ class InputBarReplyView: InputStackView, InputItem {
         self.message = messageT
         super.init(frame: .zero)
         super.axis = .vertical
-        super.spacing = 2
+        super.spacing = 4
         super.alignment = .leading
         super.distribution = .fill
+        if #available(iOS 11.0, *) {
+            self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0)
+            self.isLayoutMarginsRelativeArrangement = true
+        }
         setupSubviews()
     }
 
