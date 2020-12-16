@@ -221,7 +221,7 @@ extension CommonTableViewController: AttachmentManagerDelegate {
     
     func setAttachmentManager(active: Bool) {
         
-        let topStackView = inputBar.topStackView
+        let topStackView = inputBar.attachmentView
         if active && !topStackView.arrangedSubviews.contains(attachmentManager.attachmentView) {
             topStackView.insertArrangedSubview(attachmentManager.attachmentView, at: topStackView.arrangedSubviews.count)
             topStackView.layoutIfNeeded()

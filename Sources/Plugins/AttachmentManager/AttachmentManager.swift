@@ -63,12 +63,13 @@ open class AttachmentManager: NSObject, InputPlugin {
     open var showAddAttachmentCell = true { didSet { attachmentView.reloadData() } }
     
     /// The color applied to the backgroundColor of the deleteButton in each `AttachmentCell`
-    open var tintColor: UIColor = UIColor(red: 0, green: 0.5, blue: 1, alpha: 1)
+    open var tintColor: UIColor = UIColor.systemRed
     
     // MARK: - Initialization
     
     public override init() {
         super.init()
+        attachmentView.backgroundColor = .clear
     }
     
     // MARK: - InputPlugin
