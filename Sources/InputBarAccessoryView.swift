@@ -106,6 +106,20 @@ open class InputBarAccessoryView: UIView {
 
     /**
      The InputStackView at the InputStackView.top position
+
+     ## Important Notes ##
+     1. It's axis is initially set to .vertical
+     2. It's alignment is initially set to .fill
+     */
+    public let attachmentView: InputStackView = {
+        let stackView = InputStackView(axis: .horizontal, spacing: 0)
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
+
+    /**
+     The InputStackView at the InputStackView.top position
      
      ## Important Notes ##
      1. It's axis is initially set to .vertical
@@ -333,7 +347,9 @@ open class InputBarAccessoryView: UIView {
 
     /// The InputBarItems held in the topStackView
     public private(set) var topStackViewItems: [InputItem] = []
-    
+
+    public private(set) var attachmentViewItems: [InputItem] = []
+
     /// The InputBarItems held to make use of their hooks but they are not automatically added to a UIStackView
     open var nonStackViewItems: [InputItem] = []
     
@@ -346,6 +362,7 @@ open class InputBarAccessoryView: UIView {
     
     private var middleContentViewLayoutSet: NSLayoutConstraintSet?
     private var textViewHeightAnchor: NSLayoutConstraint?
+    private var attachmentViewLayoutSet: NSLayoutConstraintSet?
     private var topStackViewLayoutSet: NSLayoutConstraintSet?
     private var leftStackViewLayoutSet: NSLayoutConstraintSet?
     private var rightStackViewLayoutSet: NSLayoutConstraintSet?
@@ -435,6 +452,7 @@ open class InputBarAccessoryView: UIView {
     private func setupSubviews() {
         
         addSubview(backgroundView)
+        addSubview(attachmentView)
         addSubview(topStackView)
         addSubview(contentView)
         addSubview(separatorLine)
@@ -454,14 +472,21 @@ open class InputBarAccessoryView: UIView {
         separatorLine.addConstraints(topAnchor, left: backgroundView.leftAnchor, right: backgroundView.rightAnchor, heightConstant: separatorLine.height)
 
         backgroundViewLayoutSet = NSLayoutConstraintSet(
-            top: backgroundView.topAnchor.constraint(equalTo: topStackView.topAnchor),
+            top: backgroundView.topAnchor.constraint(equalTo: attachmentView.topAnchor),
             bottom: backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             left: backgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: frameInsets.left),
             right: backgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -frameInsets.right)
         )
 
+        attachmentViewLayoutSet = NSLayoutConstraintSet(
+            top: attachmentView.topAnchor.constraint(equalTo: topAnchor, constant: topStackViewPadding.top),
+            bottom: attachmentView.bottomAnchor.constraint(equalTo: topStackView.topAnchor, constant: -topStackViewPadding.bottom),
+            left: attachmentView.leftAnchor.constraint(equalTo: leftAnchor, constant: topStackViewPadding.left),
+            right: attachmentView.rightAnchor.constraint(equalTo: rightAnchor, constant: topStackViewPadding.right)
+        )
+
         topStackViewLayoutSet = NSLayoutConstraintSet(
-            top:    topStackView.topAnchor.constraint(equalTo: topAnchor, constant: topStackViewPadding.top),
+            top:    topStackView.topAnchor.constraint(equalTo: attachmentView.bottomAnchor, constant: topStackViewPadding.bottom),
             bottom: topStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -topStackViewPadding.bottom),
             left:   topStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: topStackViewPadding.left),
             right:  topStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -topStackViewPadding.right)
@@ -659,6 +684,9 @@ open class InputBarAccessoryView: UIView {
             case .top:
                 topStackView.setNeedsLayout()
                 topStackView.layoutIfNeeded()
+            case .attachment:
+                attachmentView.setNeedsLayout()
+                attachmentView.layoutIfNeeded()
             }
         }
     }
@@ -689,6 +717,7 @@ open class InputBarAccessoryView: UIView {
         rightStackViewLayoutSet?.activate()
         bottomStackViewLayoutSet?.activate()
         topStackViewLayoutSet?.activate()
+        attachmentViewLayoutSet?.activate()
     }
     
     /// Deactivates the NSLayoutConstraintSet's
@@ -700,6 +729,7 @@ open class InputBarAccessoryView: UIView {
         rightStackViewLayoutSet?.deactivate()
         bottomStackViewLayoutSet?.deactivate()
         topStackViewLayoutSet?.deactivate()
+        attachmentViewLayoutSet?.deactivate()
     }
 
     /// Removes the current `middleContentView` and assigns a new one.
@@ -782,6 +812,18 @@ open class InputBarAccessoryView: UIView {
                 }
                 guard superview != nil else { return }
                 topStackView.layoutIfNeeded()
+            case .attachment:
+                attachmentView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+                attachmentViewItems = items
+                attachmentViewItems.forEach {
+                    $0.inputBarAccessoryView = self
+                    $0.parentStackViewPosition = position
+                    if let view  = $0 as? UIView {
+                        attachmentView.addArrangedSubview(view)
+                    }
+                }
+                guard superview != nil else { return }
+                attachmentView.layoutIfNeeded()
             }
             invalidateIntrinsicContentSize()
         }
@@ -790,7 +832,7 @@ open class InputBarAccessoryView: UIView {
             setNewItems()
         }
     }
-    
+
     /// Sets the leftStackViewWidthConstant
     ///
     /// - Parameters:
