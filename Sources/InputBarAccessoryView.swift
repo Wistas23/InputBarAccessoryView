@@ -486,7 +486,7 @@ open class InputBarAccessoryView: UIView {
         )
 
         topStackViewLayoutSet = NSLayoutConstraintSet(
-            top:    topStackView.topAnchor.constraint(equalTo: attachmentView.bottomAnchor, constant: topStackViewPadding.top),
+            top:    topStackView.topAnchor.constraint(equalTo: attachmentView.bottomAnchor, constant: topStackViewPadding.bottom),
             bottom: topStackView.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -topStackViewPadding.bottom),
             left:   topStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: topStackViewPadding.left),
             right:  topStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -topStackViewPadding.right)
