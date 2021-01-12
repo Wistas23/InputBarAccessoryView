@@ -34,11 +34,31 @@ open class AttachmentCell: UICollectionViewCell {
     class var reuseIdentifier: String {
         return "AttachmentCell"
     }
-    
+
+    public let blurView: UIVisualEffectView = {
+        if #available(iOS 13.0, *) {
+            let visualEffect = UIBlurEffect(style: .systemChromeMaterial)
+            let blurView = UIVisualEffectView(effect: visualEffect)
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+            blurView.layer.cornerRadius = 8
+            blurView.clipsToBounds = true
+            return blurView
+        } else if #available(iOS 10.0, *) {
+            let visualEffect = UIBlurEffect(style: .prominent)
+            let blurView = UIVisualEffectView(effect: visualEffect)
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+            blurView.layer.cornerRadius = 8
+            blurView.clipsToBounds = true
+            return blurView
+        } else {
+            return UIVisualEffectView()
+        }
+    }()
+
     public let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .groupTableViewBackground
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
         return view
@@ -97,22 +117,27 @@ open class AttachmentCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        
         contentView.addSubview(containerView)
+        containerView.addSubview(blurView)
         contentView.addSubview(deleteButton)
     }
 
     private func setupConstraints() {
-        
         containerViewLayoutSet = NSLayoutConstraintSet(
             top:    containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding.top),
             bottom: containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding.bottom),
             left:   containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: padding.left),
             right:  containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -padding.right)
         ).activate()
+
         deleteButton.addConstraints(contentView.topAnchor, right: contentView.rightAnchor, widthConstant: 20, heightConstant: 20)
+
+        blurView.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
+        blurView.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
+        blurView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        blurView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
     }
-    
+
     private func updateContainerPadding() {
         
         containerViewLayoutSet?.top?.constant = padding.top
